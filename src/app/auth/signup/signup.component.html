@@ -8,14 +8,18 @@
              name="email"
              required
              email
-             ngModel>
+             ngModel
+             #email="ngModel">
+      <mat-error *ngIf="email.hasError('required')">E-Mail is required.</mat-error>
+      <mat-error *ngIf="email.hasError('email')">E-Mail is invalid.</mat-error>
     </mat-form-field>
     <mat-form-field hintLabel="Should be at least characters long.">
       <mat-label>Password</mat-label>
       <input type="password"
              matInput
              name="password"
-             required minlength="6"
+             required
+             minlength="6"
              ngModel
              #password="ngModel">
       <mat-hint align="end">{{ password.value?.length }} / 6</mat-hint>
