@@ -1,3 +1,12 @@
+mat-sidenav-container, mat-sidenav-content {
+  height: 100%;
+  background-color: transparent;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
 img {
   width: 40px;
 }
