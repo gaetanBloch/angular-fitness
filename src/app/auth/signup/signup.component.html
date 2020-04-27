@@ -12,6 +12,7 @@
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input type="email"
+             placeholder="Ex: gaetan.bloch@gmail.com"
              matInput
              name="email"
              required
@@ -42,6 +43,8 @@
              [matDatepicker]="picker"
              [max]="maxDate"
              name="birthDate"
+             style="cursor: default"
+             readonly
              required
              ngModel>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
