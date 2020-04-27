@@ -1,10 +1,17 @@
-<section>
+<section fxLayoutAlign="center center">
   <form fxLayout="column"
         fxLayoutAlign="center center"
         fxLayoutGap="15px"
+        fxFlex.xs="100%"
+        fxFlex.sm="66.6%"
+        fxFlex.md="50%"
+        fxFlex.gt-md="33.3%"
         (ngSubmit)="onSubmit(form)"
         #form="ngForm">
-    <img src="https://miro.medium.com/max/1400/1*9NB__ssP6pLHkTGTs_GzXg.jpeg" alt="Angular 9">
+    <div>
+      <img src="https://miro.medium.com/max/1400/1*9NB__ssP6pLHkTGTs_GzXg.jpeg"
+           alt="Angular 9">
+    </div>
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input type="email"
@@ -46,7 +53,8 @@
     <mat-checkbox name="agree"
                   color="primary"
                   required
-                  ngModel>Agree to Terms and Conditions.
+                  ngModel>
+      Agree to Terms and Conditions.
     </mat-checkbox>
     <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
       Submit
