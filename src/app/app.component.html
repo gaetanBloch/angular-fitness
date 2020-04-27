@@ -3,8 +3,21 @@
     <p>Sidenav</p>
   </mat-sidenav>
   <mat-sidenav-content>
-    <button (click)="sidenav.toggle()">Show Sidenav</button>
-    <router-outlet></router-outlet>
+    <mat-toolbar color="primary">
+      <button mat-flat-button (click)="sidenav.toggle()">
+        <mat-icon>clear_all</mat-icon>
+      </button>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg"
+           alt="Angular">
+      <div>
+        <a routerLink="/signup">Signup</a>
+        <a routerLink="/login">Login</a>
+        <a routerLink="/training">Training</a>
+      </div>
+    </mat-toolbar>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
