@@ -6,32 +6,3 @@ mat-sidenav-container, mat-sidenav-content {
 mat-sidenav {
   width: 250px;
 }
-
-img {
-  width: 40px;
-}
-
-a {
-  text-decoration: none;
-  color: white;
-}
-
-a:hover, a:active, .logout-button:hover {
-  color: darkgray;
-}
-
-.nav-items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.nav-caption {
-  display: inline-block;
-  padding-left: 6px;
-}
-
-.logout-button {
-  font-weight: normal;
-  font-size: 16px;
-}

@@ -1,0 +1,14 @@
+.nav-caption {
+  display: inline-block;
+  padding-left: 6px;
+}
+
+.logout-button {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.logout-button:hover {
+  color: darkgray;
+}
+
