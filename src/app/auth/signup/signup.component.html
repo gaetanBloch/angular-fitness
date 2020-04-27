@@ -3,11 +3,11 @@
     <img src="https://miro.medium.com/max/1400/1*9NB__ssP6pLHkTGTs_GzXg.jpeg" alt="Angular 9">
     <mat-form-field>
       <mat-label>Email</mat-label>
-      <input type="email" matInput name="email" ngModel>
+      <input type="email" matInput name="email" required email ngModel>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input type="password" type="submit" matInput name="password" ngModel>
+      <input type="password" type="submit" matInput name="password" required minlength="6" ngModel>
     </mat-form-field>
     <button mat-raised-button color="primary">Submit</button>
   </form>
