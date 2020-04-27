@@ -13,7 +13,7 @@
       <mat-error *ngIf="email.hasError('required')">E-Mail is required.</mat-error>
       <mat-error *ngIf="email.hasError('email')">E-Mail is invalid.</mat-error>
     </mat-form-field>
-    <mat-form-field hintLabel="Should be at least characters long.">
+    <mat-form-field hintLabel="Should be at least 6 characters long.">
       <mat-label>Password</mat-label>
       <input type="password"
              matInput
@@ -23,6 +23,10 @@
              ngModel
              #password="ngModel">
       <mat-hint align="end">{{ password.value?.length }} / 6</mat-hint>
+      <mat-error *ngIf="password.hasError('required')">Password is required.</mat-error>
+      <mat-error *ngIf="password.hasError('minlength')">
+        Password has to be at least 6 characters long.
+      </mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Submit</button>
   </form>
