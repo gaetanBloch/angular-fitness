@@ -1,5 +1,6 @@
 section {
   padding: 20px;
+  height: 100%;
 }
 
 mat-form-field {
