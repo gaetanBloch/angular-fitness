@@ -1,23 +1,22 @@
 <section class="new-training" fxLayout fxLayoutAlign="center">
-  <mat-card fxFlex="400px" fxFlex.lt-sm="100%">
-    <mat-card-title fxLayoutAlign="center">Time to start a workout!</mat-card-title>
-    <mat-card-content fxLayoutAlign="center">
-      <mat-form-field>
-        <mat-label>Exercise</mat-label>
-        <mat-select>
-          <mat-option [value]="exercise.id" *ngFor="let exercise of exercises">
-            {{ exercise.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-card-content>
-    <mat-card-actions fxLayoutAlign="center">
-      <button mat-raised-button
-              color="primary"
-              type="submit"
-              (click)="onStartTraining()">
-        Start
-      </button>
-    </mat-card-actions>
-  </mat-card>
+  <form (ngSubmit)="onStartTraining(form)" #form="ngForm">
+    <mat-card fxFlex="400px" fxFlex.lt-sm="100%">
+      <mat-card-title fxLayoutAlign="center">Time to start a workout!</mat-card-title>
+      <mat-card-content fxLayoutAlign="center">
+        <mat-form-field>
+          <mat-label>Choose Exercise</mat-label>
+          <mat-select name="exercise" required ngModel>
+            <mat-option [value]="exercise.id" *ngFor="let exercise of exercises">
+              {{ exercise.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+          Start
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 </section>
