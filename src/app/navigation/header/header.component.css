@@ -5,14 +5,21 @@ img {
 a {
   text-decoration: none;
   color: white;
+  font-size: 16px;
+  padding: 7px;
+  border-radius: 5px;
 }
 
 a:hover, a:active {
-  color: darkgray;
+  background-color: rgba(0, 0, 0, 0.10);
 }
 
 .nav-items {
   list-style: none;
-  padding: 0;
+  padding: 0px;
   margin: 0;
+}
+
+.app-title {
+  font-size: 20px;
 }
