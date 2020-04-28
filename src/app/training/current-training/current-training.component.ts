@@ -20,4 +20,8 @@ export class CurrentTrainingComponent implements OnInit {
       }
     }, 1000);
   }
+
+  onStop(): void {
+    clearInterval(this.timer);
+  }
 }
