@@ -3,9 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AuthGuard } from './auth/auth.guard';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  {path: '', component: WelcomeComponent},
+  {path: '', component: WelcomeComponent, pathMatch: 'full'},
   {
     path: '',
     loadChildren: () => import('./auth/auth.module')
@@ -16,7 +17,8 @@ const routes: Routes = [
     loadChildren: () => import('./training/training.module')
       .then(module => module.TrainingModule),
     canLoad: [AuthGuard]
-  }
+  },
+  {path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({
