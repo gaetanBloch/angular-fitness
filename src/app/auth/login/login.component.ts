@@ -14,13 +14,13 @@ import { UiService } from '../../shared/ui.service';
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   isLoading = false;
-  private uiSubscription: Subscription;
+  private loadingSubscription: Subscription;
 
   constructor(private authService: AuthService, private uiService: UiService) {
   }
 
   ngOnInit(): void {
-    this.uiSubscription = this.uiService.loadingStateChanged.subscribe(isLoading => {
+    this.loadingSubscription = this.uiService.loadingStateChanged.subscribe(isLoading => {
       this.isLoading = isLoading;
     });
 
@@ -38,6 +38,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.uiSubscription.unsubscribe();
+    this.loadingSubscription.unsubscribe();
   }
 }
