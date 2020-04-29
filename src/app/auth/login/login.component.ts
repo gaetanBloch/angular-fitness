@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.authService.signup(new AuthData(
+    this.authService.login(new AuthData(
       this.loginForm.value.email,
       this.loginForm.value.password
     ));

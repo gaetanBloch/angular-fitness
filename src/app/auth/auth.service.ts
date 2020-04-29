@@ -34,7 +34,6 @@ export class AuthService {
       .catch(error => {
         console.log(error);
       });
-    this.authenticate();
   }
 
   logout(): void {
