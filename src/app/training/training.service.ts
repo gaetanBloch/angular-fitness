@@ -7,11 +7,13 @@ import { Exercise, ExerciseDoc } from './exercise.model';
 
 @Injectable({providedIn: 'root'})
 export class TrainingService {
+  static readonly PAST_EXERCISES = 'pastExercises';
+
   exerciseChanged = new Subject<Exercise>();
   exercisesChanged = new Subject<Exercise[]>();
+  pastExercisesChanged = new Subject<Exercise[]>();
   private availableExercises: Exercise[] = [];
   private runningExercise: Exercise;
-  private exercises: Exercise[] = [];
 
   constructor(private firestore: AngularFirestore) {
   }
@@ -66,11 +68,14 @@ export class TrainingService {
     return {...this.runningExercise};
   }
 
-  getExercises(): Exercise[] {
-    return this.exercises.slice();
+  fetchPastExercises(): void {
+    this.firestore.collection(TrainingService.PAST_EXERCISES).valueChanges()
+      .subscribe((exercises: Exercise[]) => {
+        this.pastExercisesChanged.next(exercises);
+      });
   }
 
   private addDataToFirestore(exercise: Exercise): void {
-    this.firestore.collection('pastExercises').add(exercise);
+    this.firestore.collection(TrainingService.PAST_EXERCISES).add(exercise);
   }
 }
