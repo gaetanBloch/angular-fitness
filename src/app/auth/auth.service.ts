@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { Subject } from 'rxjs';
 
 import { User } from './user.model';
@@ -10,15 +11,26 @@ export class AuthService {
   authChange = new Subject<boolean>();
   private user: User;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private fireAuth: AngularFireAuth) {
   }
 
   signup(authData: AuthData): void {
-    this.authenticate(authData);
+    this.fireAuth.createUserWithEmailAndPassword(authData.email, authData.password)
+      .then(result => {
+        console.log(result);
+        this.authenticate();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   login(authData: AuthData): void {
-    this.authenticate(authData);
+    this.user = {
+      email: authData.email,
+      userId: Math.round(Math.random() * 1000).toString()
+    };
+    this.authenticate();
   }
 
   logout(): void {
@@ -35,11 +47,7 @@ export class AuthService {
     return this.user != null;
   }
 
-  private authenticate(authData: AuthData): void {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 1000).toString()
-    };
+  private authenticate(): void {
     this.authChange.next(true);
     this.router.navigate(['/training']);
   }
