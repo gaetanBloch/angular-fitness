@@ -6,7 +6,7 @@
         fxFlex.gt-xs="400px"
         (ngSubmit)="onSubmit()"
         [formGroup]="loginForm">
-    <span class="login-title">Login</span>
+    <span class="login-title">Login to your account</span>
     <mat-form-field>
       <input type="email"
              matInput
@@ -35,7 +35,7 @@
             type="submit"
             [disabled]="!loginForm.valid"
             *ngIf="!isLoading">
-      Submit
+      Login
     </button>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
