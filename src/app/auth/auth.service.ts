@@ -26,10 +26,14 @@ export class AuthService {
   }
 
   login(authData: AuthData): void {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 1000).toString()
-    };
+    this.fireAuth.signInWithEmailAndPassword(authData.email, authData.password)
+      .then(result => {
+        console.log(result);
+        this.authenticate();
+      })
+      .catch(error => {
+        console.log(error);
+      });
     this.authenticate();
   }
 
