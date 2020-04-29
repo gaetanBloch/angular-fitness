@@ -11,6 +11,7 @@ import { UiService } from '../shared/ui.service';
 export class AuthService {
   authChange = new Subject<AuthStatus>();
   private authStatus = AuthStatus.IDLE;
+  private firstOpening = true;
 
   constructor(private router: Router,
               private fireAuth: AngularFireAuth,
@@ -22,14 +23,10 @@ export class AuthService {
     this.authChange.next(AuthStatus.IDLE);
     this.fireAuth.authState.subscribe(user => {
       if (user) {
-        this.authStatus = AuthStatus.AUTHENTICATED;
-        this.authChange.next(AuthStatus.AUTHENTICATED);
-        this.router.navigate(['']);
+        this.finalizeAuthentication(AuthStatus.AUTHENTICATED);
       } else {
         this.trainingService.cancelSubscriptions();
-        this.authStatus = AuthStatus.UNAUTHENTICATED;
-        this.authChange.next(AuthStatus.UNAUTHENTICATED);
-        this.router.navigate(['']);
+        this.finalizeAuthentication(AuthStatus.UNAUTHENTICATED);
       }
     });
   }
@@ -53,7 +50,7 @@ export class AuthService {
   }
 
   isAuth(): boolean {
-    return this.authStatus === AuthStatus.AUTHENTICATED;
+    return this.authStatus === AuthStatus.IDLE || this.authStatus === AuthStatus.AUTHENTICATED;
   }
 
   private handleAuthentication(): void {
@@ -63,5 +60,15 @@ export class AuthService {
   private handleError(error: any): void {
     this.uiService.loadingStateChanged.next(false);
     this.uiService.showSnackbar(error.message, 'Dismiss', 7000);
+  }
+
+  private finalizeAuthentication(authStatus: AuthStatus) {
+    this.authStatus = authStatus;
+    this.authChange.next(authStatus);
+    if (this.firstOpening) {
+      this.firstOpening = false;
+    } else {
+      this.router.navigate(['']);
+    }
   }
 }
