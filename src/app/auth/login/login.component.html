@@ -3,12 +3,10 @@
         fxLayoutAlign="center center"
         fxLayoutGap="15px"
         fxFlex.xs="100%"
-        fxFlex.sm="66.6%"
-        fxFlex.md="50%"
-        fxFlex.gt-md="33.3%"
+        fxFlex.gt-xs="400px"
         (ngSubmit)="onSubmit()"
         [formGroup]="loginForm">
-    <span class="login-title">Please Login to continue</span>
+    <span class="login-title">Login</span>
     <mat-form-field>
       <input type="email"
              matInput
@@ -32,8 +30,13 @@
       <mat-hint>Please enter your password.</mat-hint>
       <mat-error>Password is required.</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">
+    <button mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!loginForm.valid"
+            *ngIf="!isLoading">
       Submit
     </button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>

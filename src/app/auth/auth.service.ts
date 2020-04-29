@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 
 import { AuthData } from './auth-data.model';
 import { TrainingService } from '../training/training.service';
+import { UiService } from '../shared/ui.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -15,7 +16,8 @@ export class AuthService {
   constructor(private router: Router,
               private fireAuth: AngularFireAuth,
               private trainingService: TrainingService,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private uiService: UiService) {
   }
 
   initAuthListener(): void {
@@ -42,10 +44,9 @@ export class AuthService {
   }
 
   login(authData: AuthData): void {
+    this.uiService.loadingStateChanged.next(true);
     this.fireAuth.signInWithEmailAndPassword(authData.email, authData.password)
-      .then((user) => {
-        console.log(user);
-      })
+      .then(this.handleAuthentication.bind(this))
       .catch(this.handleError.bind(this));
   }
 
@@ -55,6 +56,10 @@ export class AuthService {
 
   isAuth(): boolean {
     return this.isAuthenticated;
+  }
+
+  private handleAuthentication(): void {
+    this.uiService.loadingStateChanged.next(false);
   }
 
   private handleError(error: any): void {
