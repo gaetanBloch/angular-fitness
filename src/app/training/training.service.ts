@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 
 import { Exercise, ExerciseDoc } from './exercise.model';
 
-
 @Injectable({providedIn: 'root'})
 export class TrainingService {
   exerciseChanged = new Subject<Exercise>();
@@ -42,7 +41,7 @@ export class TrainingService {
   }
 
   completeExercise(): void {
-    this.exercises.push({
+    this.addDataToFirestore({
       ...this.runningExercise,
       date: new Date(),
       state: 'completed'
@@ -52,7 +51,7 @@ export class TrainingService {
   }
 
   cancelExercise(progress: number): void {
-    this.exercises.push({
+    this.addDataToFirestore({
       ...this.runningExercise,
       duration: this.runningExercise.duration * (progress / 100),
       calories: this.runningExercise.calories * (progress / 100),
@@ -69,5 +68,9 @@ export class TrainingService {
 
   getExercises(): Exercise[] {
     return this.exercises.slice();
+  }
+
+  private addDataToFirestore(exercise: Exercise): void {
+    this.firestore.collection('pastExercises').add(exercise);
   }
 }
