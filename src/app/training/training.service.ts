@@ -38,6 +38,8 @@ export class TrainingService {
   }
 
   startExercise(id: string): void {
+    // How to select a specific document and update it (we can set and delete too)
+    // this.firestore.doc('availableExercises/' + id).update({lastSelected: new Date()});
     this.runningExercise = this.availableExercises.find(ex => ex.id === id);
     this.exerciseChanged.next({...this.runningExercise});
   }
