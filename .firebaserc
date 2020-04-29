@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "angular-fitness-f641e": {
+      "hosting": {
+        "angular-fitness": [
+          "angular-fitness-f641e"
+        ]
+      }
+    }
+  }
+}
