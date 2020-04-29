@@ -4,14 +4,14 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 
-import { AuthData } from './auth-data.model';
+import { AuthData, AuthStatus } from './auth-data.model';
 import { TrainingService } from '../training/training.service';
 import { UiService } from '../shared/ui.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  authChange = new Subject<boolean>();
-  private isAuthenticated = false;
+  authChange = new Subject<AuthStatus>();
+  private authStatus = AuthStatus.IDLE;
 
   constructor(private router: Router,
               private fireAuth: AngularFireAuth,
@@ -21,15 +21,16 @@ export class AuthService {
   }
 
   initAuthListener(): void {
+    this.authChange.next(AuthStatus.IDLE);
     this.fireAuth.authState.subscribe(user => {
       if (user) {
-        this.isAuthenticated = true;
-        this.authChange.next(true);
+        this.authStatus = AuthStatus.AUTHENTICATED;
+        this.authChange.next(AuthStatus.AUTHENTICATED);
         this.router.navigate(['']);
       } else {
         this.trainingService.cancelSubscriptions();
-        this.isAuthenticated = false;
-        this.authChange.next(false);
+        this.authStatus = AuthStatus.UNAUTHENTICATED;
+        this.authChange.next(AuthStatus.UNAUTHENTICATED);
         this.router.navigate(['']);
       }
     });
@@ -54,7 +55,7 @@ export class AuthService {
   }
 
   isAuth(): boolean {
-    return this.isAuthenticated;
+    return this.authStatus === AuthStatus.AUTHENTICATED;
   }
 
   private handleAuthentication(): void {

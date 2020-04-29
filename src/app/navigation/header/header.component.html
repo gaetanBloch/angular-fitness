@@ -13,10 +13,18 @@
   </div>
   <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
     <ul fxLayout class="nav-items">
-      <li *ngIf="!isAuth"><a routerLink="/signup" routerLinkActive="active">Signup</a></li>
-      <li *ngIf="!isAuth"><a routerLink="/login" routerLinkActive="active">Login</a></li>
-      <li *ngIf="isAuth"><a routerLink="/training" routerLinkActive="active">Training</a></li>
-      <li *ngIf="isAuth"><a style="cursor: pointer" (click)="onLogout()">Logout</a></li>
+      <li *ngIf="isUnauthenticated()">
+        <a routerLink="/signup" routerLinkActive="active">Signup</a>
+      </li>
+      <li *ngIf="isUnauthenticated()">
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+      </li>
+      <li *ngIf="isAuthenticated()">
+        <a routerLink="/training" routerLinkActive="active">Training</a>
+      </li>
+      <li *ngIf="isAuthenticated()">
+        <a style="cursor: pointer" (click)="onLogout()">Logout</a>
+      </li>
     </ul>
   </div>
 </mat-toolbar>

@@ -7,3 +7,9 @@ export class AuthData {
     this.password = password;
   }
 }
+
+export enum AuthStatus {
+  IDLE,
+  AUTHENTICATED,
+  UNAUTHENTICATED
+}

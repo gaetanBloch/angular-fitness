@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../auth/auth.service';
+import { AuthStatus } from '../../auth/auth-data.model';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   @Output() toggleSideNav = new EventEmitter<void>();
-  isAuth = false;
+  authStatus = AuthStatus.IDLE;
   private authSubscription: Subscription;
 
   constructor(private authService: AuthService) {
@@ -18,7 +19,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authSubscription = this.authService.authChange.subscribe(authStatus => {
-      this.isAuth = authStatus;
+      this.authStatus = authStatus;
     });
   }
 
@@ -28,6 +29,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout(): void {
     this.authService.logout();
+  }
+
+  isAuthenticated(): boolean {
+    return this.authStatus === AuthStatus.AUTHENTICATED;
+  }
+
+  isUnauthenticated(): boolean {
+    return this.authStatus === AuthStatus.UNAUTHENTICATED;
   }
 
   ngOnDestroy(): void {
