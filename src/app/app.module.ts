@@ -11,14 +11,15 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
-import { AuthModule } from './auth/auth.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -26,8 +27,7 @@ import { AuthModule } from './auth/auth.module';
     MaterialModule,
     AppRoutingModule,
     FlexLayoutModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AuthModule
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [],
   bootstrap: [AppComponent]
