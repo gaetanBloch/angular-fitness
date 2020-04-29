@@ -15,10 +15,25 @@ export class AuthService {
               private trainingService: TrainingService) {
   }
 
+  initAuthListener(): void {
+    this.fireAuth.authState.subscribe(user => {
+      if (user) {
+        this.isAuthenticated = true;
+        this.authChange.next(true);
+        this.router.navigate(['/training']);
+      } else {
+        this.trainingService.cancelSubscriptions();
+        this.isAuthenticated = false;
+        this.authChange.next(false);
+        this.router.navigate(['']);
+      }
+    });
+  }
+
   signup(authData: AuthData): void {
     this.fireAuth.createUserWithEmailAndPassword(authData.email, authData.password)
-      .then(() => {
-        this.authenticated();
+      .then((user) => {
+        console.log(user);
       })
       .catch(error => {
         console.log(error);
@@ -27,8 +42,8 @@ export class AuthService {
 
   login(authData: AuthData): void {
     this.fireAuth.signInWithEmailAndPassword(authData.email, authData.password)
-      .then(() => {
-        this.authenticated();
+      .then((user) => {
+        console.log(user);
       })
       .catch(error => {
         console.log(error);
@@ -36,20 +51,10 @@ export class AuthService {
   }
 
   logout(): void {
-    this.trainingService.cancelSubscriptions();
     this.fireAuth.signOut();
-    this.isAuthenticated = false;
-    this.authChange.next(false);
-    this.router.navigate(['']);
   }
 
   isAuth(): boolean {
     return this.isAuthenticated;
-  }
-
-  private authenticated(): void {
-    this.isAuthenticated = true;
-    this.authChange.next(true);
-    this.router.navigate(['/training']);
   }
 }
