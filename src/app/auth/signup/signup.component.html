@@ -3,12 +3,10 @@
         fxLayoutAlign="center center"
         fxLayoutGap="15px"
         fxFlex.xs="100%"
-        fxFlex.sm="66.6%"
-        fxFlex.md="50%"
-        fxFlex.gt-md="33.3%"
+        fxFlex.gt-xs="400px"
         (ngSubmit)="onSubmit(form)"
         #form="ngForm">
-    <span class="signup-title">Please sign up to continue</span>
+    <span class="signup-title">Create a new account</span>
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input type="email"
@@ -56,8 +54,13 @@
                   ngModel>
       Agree to Terms and Conditions.
     </mat-checkbox>
-    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
-      Submit
+    <button mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!form.valid"
+            *ngIf="!isLoading">
+      Signup
     </button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>

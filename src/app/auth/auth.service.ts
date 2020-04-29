@@ -36,10 +36,9 @@ export class AuthService {
   }
 
   signup(authData: AuthData): void {
+    this.uiService.loadingStateChanged.next(true);
     this.fireAuth.createUserWithEmailAndPassword(authData.email, authData.password)
-      .then((user) => {
-        console.log(user);
-      })
+      .then(this.handleAuthentication.bind(this))
       .catch(this.handleError.bind(this));
   }
 
@@ -63,6 +62,7 @@ export class AuthService {
   }
 
   private handleError(error: any): void {
+    this.uiService.loadingStateChanged.next(false);
     this.snackBar.open(error.message, 'Dismiss', {
       duration: 7000
     });
