@@ -3,7 +3,5 @@ mat-row:hover {
 }
 
 mat-form-field {
-  margin: 10px 10px 0 10px;
-  font-size: 14px;
-  width: calc(100% - 20px);
+  margin-top: 10px;
 }
