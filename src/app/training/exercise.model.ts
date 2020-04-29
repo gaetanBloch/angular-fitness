@@ -13,3 +13,9 @@ export class Exercise {
     this.calories = calories;
   }
 }
+
+export interface ExerciseDoc {
+  name: string;
+  duration: number;
+  calories: number;
+}
