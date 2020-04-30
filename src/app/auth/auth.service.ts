@@ -8,6 +8,7 @@ import { AuthData, AuthStatus } from './auth-data.model';
 import { TrainingService } from '../training/training.service';
 import { UiService } from '../shared/ui.service';
 import * as fromApp from '../store/app.reducer';
+import * as UiActions from '../shared/store/ui.actions';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
               private fireAuth: AngularFireAuth,
               private trainingService: TrainingService,
               private uiService: UiService,
-              private store: Store<{ app: fromApp.State }>) {
+              private store: Store<fromApp.AppState>) {
   }
 
   initAuthListener(): void {
@@ -35,7 +36,7 @@ export class AuthService {
   }
 
   signup(authData: AuthData): void {
-    this.store.dispatch({type: '[UI] START LOADING'});
+    this.store.dispatch(new UiActions.StartLoading());
     // this.uiService.loadingStateChanged.next(true);
     this.fireAuth.createUserWithEmailAndPassword(authData.email, authData.password)
       .then(this.handleAuthentication.bind(this))
@@ -43,7 +44,7 @@ export class AuthService {
   }
 
   login(authData: AuthData): void {
-    this.store.dispatch({type: '[UI] START LOADING'});
+    this.store.dispatch(new UiActions.StartLoading());
     // this.uiService.loadingStateChanged.next(true);
     this.fireAuth.signInWithEmailAndPassword(authData.email, authData.password)
       .then(this.handleAuthentication.bind(this))
@@ -59,12 +60,12 @@ export class AuthService {
   }
 
   private handleAuthentication(): void {
-    this.store.dispatch({type: '[UI] STOP LOADING'});
+    this.store.dispatch(new UiActions.StopLoading());
     // this.uiService.loadingStateChanged.next(false);
   }
 
   private handleError(error: any): void {
-    this.store.dispatch({type: '[UI] STOP LOADING'});
+    this.store.dispatch(new UiActions.StopLoading());
     // this.uiService.loadingStateChanged.next(false);
     this.uiService.showSnackbar(error.message, 'Dismiss', 7000);
   }
