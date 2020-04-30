@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from '@angular/fire';
+import { StoreModule } from '@ngrx/store';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
@@ -12,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { appReducer } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MaterialModule,
     AppRoutingModule,
     FlexLayoutModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    StoreModule.forRoot({app: appReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]
