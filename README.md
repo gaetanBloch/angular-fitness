@@ -2,6 +2,8 @@
 
 The application was made using [Angular 9](https://angular.io/), [Angular Material](https://material.angular.io/), [NgRx](https://ngrx.io/) and [Firebase](https://firebase.google.com/) as a backend and Host service.
 
+**The application was deployed on firebase, to access it, click [here](https://angular-fitness-f641e.web.app/).**
+
 ## Running Application Process on your computer
 
 1. Download the application by Clicking [this link](https://github.com/gaetanBloch/angular-project/archive/master.zip)
