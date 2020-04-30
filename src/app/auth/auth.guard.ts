@@ -9,29 +9,38 @@ import {
   UrlSegment,
   UrlTree
 } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AuthService } from './auth.service';
+import * as fromApp from '../store/app.reducer';
+import { map } from 'rxjs/operators';
+import { AuthStatus } from './auth-data.model';
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate, CanLoad {
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private store: Store<fromApp.AppState>) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.isAuth()) {
-      return true;
-    }
-    return this.router.createUrlTree(['']);
+    return this.checkAuthStatus();
   }
 
   canLoad(route: Route, segments: UrlSegment[]):
     Observable<boolean> | Promise<boolean> | boolean {
-    if (this.authService.isAuth()) {
-      return true;
-    }
-    this.router.navigate(['']);
+    return this.checkAuthStatus();
+  }
+
+  private checkAuthStatus(): Observable<boolean> {
+    return this.store.select(fromApp.getAuthStatus).pipe(map(authStatus => {
+      if (authStatus === AuthStatus.IDLE || authStatus === AuthStatus.AUTHENTICATED) {
+        return true;
+      }
+      this.router.navigate(['']);
+    }));
   }
 }
