@@ -2,6 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { Exercise } from '../exercise.model';
 import * as fromApp from '../../store/app.reducer';
+import * as TrainingActions from './training.actions';
 
 export interface TrainingState {
   availableExercises: Exercise[];
@@ -15,17 +16,30 @@ export interface State extends fromApp.AppState {
 
 const initialState: TrainingState = {
   availableExercises: [],
-  pastExercises: []
+  pastExercises: [],
+  runningExercise: null
 };
 
 const reducer = createReducer(
   initialState,
-  on(AuthActions.setAuthenticationStatus, (state, action) => ({
+  on(TrainingActions.setAvailableExercises, (state, action) => ({
     ...state,
-    authStatus: action.authStatus
+    availableExercises: action.exercises
+  })),
+  on(TrainingActions.setPastExercises, (state, action) => ({
+    ...state,
+    pastExercises: action.exercises
+  })),
+  on(TrainingActions.startExercise, (state, action) => ({
+    ...state,
+    runningExercise: action.exercise
+  })),
+  on(TrainingActions.stopExercise, state => ({
+    ...state,
+    runningExercise: null
   }))
 );
 
-export function authReducer(uiState: State | undefined, action: Action) {
-  return reducer(uiState, action);
+export function trainingReducer(trainingState: TrainingState | undefined, action: Action) {
+  return reducer(trainingState, action);
 }
