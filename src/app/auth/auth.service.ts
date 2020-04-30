@@ -53,10 +53,6 @@ export class AuthService {
     this.fireAuth.signOut();
   }
 
-  isAuth(): boolean {
-    return this.authStatus === AuthStatus.IDLE || this.authStatus === AuthStatus.AUTHENTICATED;
-  }
-
   private handleAuthentication(): void {
     this.store.dispatch(UiActions.stopLoading());
   }

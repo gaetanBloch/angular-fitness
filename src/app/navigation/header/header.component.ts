@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AuthService } from '../../auth/auth.service';
@@ -12,9 +12,8 @@ import * as fromApp from '../../store/app.reducer';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
   @Output() toggleSideNav = new EventEmitter<void>();
-  private authSubscription: Subscription;
 
   constructor(private authService: AuthService, private store: Store<fromApp.AppState>) {
   }
@@ -40,11 +39,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.store.select(fromApp.getAuthStatus).pipe(
       map(authStatus => authStatus === AuthStatus.UNAUTHENTICATED)
     );
-  }
-
-  ngOnDestroy(): void {
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
   }
 }
