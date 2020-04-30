@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AuthData, AuthStatus } from './auth-data.model';
@@ -13,7 +12,6 @@ import * as AuthActions from './store/auth.actions';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  authChange = new Subject<AuthStatus>();
   private authStatus = AuthStatus.IDLE;
   private firstOpening = true;
 
