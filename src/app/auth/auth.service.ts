@@ -36,14 +36,14 @@ export class AuthService {
   }
 
   signup(authData: AuthData): void {
-    this.store.dispatch(new UiActions.StartLoading());
+    this.store.dispatch(UiActions.startLoading());
     this.fireAuth.createUserWithEmailAndPassword(authData.email, authData.password)
       .then(this.handleAuthentication.bind(this))
       .catch(this.handleError.bind(this));
   }
 
   login(authData: AuthData): void {
-    this.store.dispatch(new UiActions.StartLoading());
+    this.store.dispatch(UiActions.startLoading());
     this.fireAuth.signInWithEmailAndPassword(authData.email, authData.password)
       .then(this.handleAuthentication.bind(this))
       .catch(this.handleError.bind(this));
@@ -58,11 +58,11 @@ export class AuthService {
   }
 
   private handleAuthentication(): void {
-    this.store.dispatch(new UiActions.StopLoading());
+    this.store.dispatch(UiActions.stopLoading());
   }
 
   private handleError(error: any): void {
-    this.store.dispatch(new UiActions.StopLoading());
+    this.store.dispatch(UiActions.stopLoading());
     this.uiService.showSnackbar(error.message, 'Dismiss', 7000);
   }
 

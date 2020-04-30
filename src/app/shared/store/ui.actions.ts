@@ -5,5 +5,5 @@ export const startLoading = createAction(
 );
 
 export const stopLoading = createAction(
-  '[UI] START LOADING'
+  '[UI] STOP LOADING'
 );
