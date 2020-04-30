@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 
 import { Exercise } from '../exercise.model';
 import * as fromApp from '../../store/app.reducer';
@@ -43,3 +43,20 @@ const reducer = createReducer(
 export function trainingReducer(trainingState: TrainingState | undefined, action: Action) {
   return reducer(trainingState, action);
 }
+
+const getTrainingState = createFeatureSelector<TrainingState>('training');
+
+export const getAvailableExercises = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.availableExercises
+);
+export const getPastExercises = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.pastExercises
+);
+export const getRunningExercises = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.runningExercise
+);
+
+
