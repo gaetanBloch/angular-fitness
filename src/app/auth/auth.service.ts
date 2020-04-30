@@ -9,6 +9,7 @@ import { TrainingService } from '../training/training.service';
 import { UiService } from '../shared/ui.service';
 import * as fromApp from '../store/app.reducer';
 import * as UiActions from '../shared/store/ui.actions';
+import * as AuthActions from './store/auth.actions';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -24,7 +25,6 @@ export class AuthService {
   }
 
   initAuthListener(): void {
-    this.authChange.next(AuthStatus.IDLE);
     this.fireAuth.authState.subscribe(user => {
       if (user) {
         this.finalizeAuthentication(AuthStatus.AUTHENTICATED);
@@ -68,7 +68,7 @@ export class AuthService {
 
   private finalizeAuthentication(authStatus: AuthStatus) {
     this.authStatus = authStatus;
-    this.authChange.next(authStatus);
+    this.store.dispatch(AuthActions.setAuthenticationStatus({authStatus}));
     if (this.firstOpening) {
       this.firstOpening = false;
     } else {
