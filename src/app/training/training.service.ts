@@ -17,7 +17,6 @@ export class TrainingService {
   exerciseChanged = new Subject<Exercise>();
   exercisesChanged = new Subject<Exercise[]>();
   pastExercisesChanged = new Subject<Exercise[]>();
-  private availableExercises: Exercise[] = [];
   private runningExercise: Exercise;
   private firebaseSubscriptions: Subscription[] = [];
 
