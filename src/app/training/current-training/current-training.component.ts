@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 
 import { StopTrainingComponent } from './stop-training/stop-training.component';
 import { TrainingService } from '../training.service';
 import * as fromTraining from '../store/training.reducer';
-import { Store } from '@ngrx/store';
 import { Exercise } from '../exercise.model';
 
 @Component({
@@ -23,7 +24,7 @@ export class CurrentTrainingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(fromTraining.getRunningExercise).subscribe(exercise => {
+    this.store.select(fromTraining.getRunningExercise).pipe(take(1)).subscribe(exercise => {
       this.runningExercise = exercise;
     });
     this.startOrResumeTimer();

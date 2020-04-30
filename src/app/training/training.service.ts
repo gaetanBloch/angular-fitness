@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { Exercise, ExerciseDoc } from './exercise.model';
 import { UiService } from '../shared/ui.service';
@@ -17,7 +17,6 @@ export class TrainingService {
   exerciseChanged = new Subject<Exercise>();
   exercisesChanged = new Subject<Exercise[]>();
   pastExercisesChanged = new Subject<Exercise[]>();
-  private runningExercise: Exercise;
   private firebaseSubscriptions: Subscription[] = [];
 
   constructor(private firestore: AngularFirestore,
@@ -58,27 +57,27 @@ export class TrainingService {
   }
 
   completeExercise(): void {
-    this.addDataToFirestore({
-      ...this.runningExercise,
-      date: new Date(),
-      state: 'completed'
+    this.store.select(fromTraining.getRunningExercise).pipe(take(1)).subscribe(exercise => {
+      this.addDataToFirestore({
+        ...exercise,
+        date: new Date(),
+        state: 'completed'
+      });
+      this.store.dispatch(TrainingActions.stopExercise());
     });
-    this.store.dispatch(TrainingActions.stopExercise());
   }
 
   cancelExercise(progress: number): void {
-    this.addDataToFirestore({
-      ...this.runningExercise,
-      duration: this.runningExercise.duration * (progress / 100),
-      calories: this.runningExercise.calories * (progress / 100),
-      date: new Date(),
-      state: 'cancelled'
+    this.store.select(fromTraining.getRunningExercise).pipe(take(1)).subscribe(exercise => {
+      this.addDataToFirestore({
+        ...exercise,
+        duration: exercise.duration * (progress / 100),
+        calories: exercise.calories * (progress / 100),
+        date: new Date(),
+        state: 'cancelled'
+      });
+      this.store.dispatch(TrainingActions.stopExercise());
     });
-    this.store.dispatch(TrainingActions.stopExercise());
-  }
-
-  getRunningExercise(): Exercise {
-    return {...this.runningExercise};
   }
 
   fetchPastExercises(): void {
