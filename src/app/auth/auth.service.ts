@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { AuthData, AuthStatus } from './auth-data.model';
 import { TrainingService } from '../training/training.service';
 import { UiService } from '../shared/ui.service';
-import * as fromApp from '../app.reducer';
+import * as fromApp from '../store/app.reducer';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {

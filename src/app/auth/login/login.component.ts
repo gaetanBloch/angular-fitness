@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { AuthData } from '../auth-data.model';
 import { AuthService } from '../auth.service';
 import { UiService } from '../../shared/ui.service';
-import * as fromApp from '../../app.reducer';
+import * as fromApp from '../../store/app.reducer';
 
 @Component({
   selector: 'app-login',
