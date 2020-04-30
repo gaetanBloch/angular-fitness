@@ -13,13 +13,9 @@ const initialState: State = {
 
 const reducer = createReducer(
   initialState,
-  on(AuthActions.setAuthenticated, state => ({
+  on(AuthActions.setAuthenticationStatus, (state, action) => ({
     ...state,
-    authStatus: AuthStatus.AUTHENTICATED
-  })),
-  on(AuthActions.setUnauthenticated, state => ({
-    ...state,
-    authStatus: AuthStatus.UNAUTHENTICATED
+    authStatus: action.authStatus
   }))
 );
 

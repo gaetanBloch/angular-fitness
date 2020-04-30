@@ -1,9 +1,7 @@
-import { createAction } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
+import { AuthStatus } from '../auth-data.model';
 
-export const setAuthenticated = createAction(
-  '[Auth] SET AUTHENTICATED'
-);
-
-export const setUnauthenticated = createAction(
-  '[Auth] SET UNAUTHENTICATED'
+export const setAuthenticationStatus = createAction(
+  '[Auth] SET AUTHENTICATION STATUS',
+  props<{ authStatus: AuthStatus }>()
 );
