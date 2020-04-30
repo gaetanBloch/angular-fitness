@@ -14,8 +14,8 @@ import * as fromTraining from '../store/training.reducer';
   styleUrls: ['./current-training.component.css']
 })
 export class CurrentTrainingComponent implements OnInit {
+  private timer: any;
   progress = 0;
-  timer: any;
   runningExercise: Exercise;
 
   constructor(private dialog: MatDialog,

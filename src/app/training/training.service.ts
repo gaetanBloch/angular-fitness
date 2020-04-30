@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 
@@ -13,10 +13,6 @@ import * as TrainingActions from '../training/store/training.actions';
 @Injectable({providedIn: 'root'})
 export class TrainingService {
   static readonly PAST_EXERCISES = 'pastExercises';
-
-  exerciseChanged = new Subject<Exercise>();
-  exercisesChanged = new Subject<Exercise[]>();
-  pastExercisesChanged = new Subject<Exercise[]>();
   private firebaseSubscriptions: Subscription[] = [];
 
   constructor(private firestore: AngularFirestore,
