@@ -4,7 +4,7 @@ import { Exercise } from '../exercise.model';
 import * as fromApp from '../../store/app.reducer';
 import * as TrainingActions from './training.actions';
 
-export interface TrainingState {
+interface TrainingState {
   availableExercises: Exercise[];
   pastExercises: Exercise[];
   runningExercise: Exercise;
@@ -54,9 +54,13 @@ export const getPastExercises = createSelector(
   getTrainingState,
   (state: TrainingState) => state.pastExercises
 );
-export const getRunningExercises = createSelector(
+export const getRunningExercise = createSelector(
   getTrainingState,
   (state: TrainingState) => state.runningExercise
+);
+export const isRunningExercise = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.runningExercise != null
 );
 
 
