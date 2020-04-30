@@ -14,8 +14,8 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
-import * as fromApp from '../store/app.reducer';
 import { AuthStatus } from './auth-data.model';
+import * as fromApp from '../store/app.reducer';
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate, CanLoad {
@@ -36,11 +36,14 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   private checkAuthStatus(): Observable<boolean> {
-    return this.store.select(fromApp.getAuthStatus).pipe(take(1), map(authStatus => {
-      if (authStatus === AuthStatus.IDLE || authStatus === AuthStatus.AUTHENTICATED) {
-        return true;
-      }
-      this.router.navigate(['']);
-    }));
+    return this.store.select(fromApp.getAuthStatus).pipe(
+      take(1),
+      map(authStatus => {
+        if (authStatus === AuthStatus.AUTHENTICATED) {
+          return true;
+        }
+        this.router.navigate(['']);
+      })
+    );
   }
 }
