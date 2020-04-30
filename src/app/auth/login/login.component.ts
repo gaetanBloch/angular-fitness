@@ -1,12 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 
 import { AuthData } from '../auth-data.model';
 import { AuthService } from '../auth.service';
-import { UiService } from '../../shared/ui.service';
 import * as fromApp from '../../store/app.reducer';
 
 @Component({
@@ -14,14 +13,11 @@ import * as fromApp from '../../store/app.reducer';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading$: Observable<boolean>;
-  private loadingSubscription: Subscription;
 
-  constructor(private authService: AuthService,
-              private uiService: UiService,
-              private store: Store<fromApp.AppState>) {
+  constructor(private authService: AuthService, private store: Store<fromApp.AppState>) {
   }
 
   ngOnInit(): void {
@@ -37,11 +33,5 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.loginForm.value.email,
       this.loginForm.value.password
     ));
-  }
-
-  ngOnDestroy(): void {
-    if (this.loadingSubscription) {
-      this.loadingSubscription.unsubscribe();
-    }
   }
 }
