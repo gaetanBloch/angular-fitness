@@ -32,7 +32,7 @@ const reducer = createReducer(
   })),
   on(TrainingActions.startExercise, (state, action) => ({
     ...state,
-    runningExercise: action.exercise
+    runningExercise: {...state.availableExercises.find(ex => ex.id === action.id)}
   })),
   on(TrainingActions.stopExercise, state => ({
     ...state,

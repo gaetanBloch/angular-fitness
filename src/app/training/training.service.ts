@@ -6,8 +6,9 @@ import { map } from 'rxjs/operators';
 
 import { Exercise, ExerciseDoc } from './exercise.model';
 import { UiService } from '../shared/ui.service';
-import * as fromApp from '../store/app.reducer';
+import * as fromTraining from '../training/store/training.reducer';
 import * as UiActions from '../shared/store/ui.actions';
+import * as TrainingActions from '../training/store/training.actions';
 
 @Injectable({providedIn: 'root'})
 export class TrainingService {
@@ -22,7 +23,7 @@ export class TrainingService {
 
   constructor(private firestore: AngularFirestore,
               private uiService: UiService,
-              private store: Store<fromApp.AppState>) {
+              private store: Store<fromTraining.State>) {
   }
 
   fetchAvailableExercises() {
@@ -41,24 +42,20 @@ export class TrainingService {
         }))
       .subscribe((exercises: Exercise[]) => {
         this.store.dispatch(UiActions.stopLoading());
-        this.availableExercises = exercises;
-        this.exercisesChanged.next([...this.availableExercises]);
+        this.store.dispatch(TrainingActions.setAvailableExercises({exercises}));
       }, error => {
         this.store.dispatch(UiActions.stopLoading());
+        this.store.dispatch(TrainingActions.setAvailableExercises({exercises: null}));
         this.uiService.showSnackbar(
           'Fetching exercise failed, please try again later',
           'Dismiss',
           5000
         );
-        this.exercisesChanged.next(null);
       }));
   }
 
   startExercise(id: string): void {
-    // This is how to select a specific document and update it (we can set and delete too)
-    // this.firestore.doc('availableExercises/' + id).update({lastSelected: new Date()});
-    this.runningExercise = this.availableExercises.find(ex => ex.id === id);
-    this.exerciseChanged.next({...this.runningExercise});
+    this.store.dispatch(TrainingActions.startExercise({id}));
   }
 
   completeExercise(): void {
@@ -67,8 +64,7 @@ export class TrainingService {
       date: new Date(),
       state: 'completed'
     });
-    this.runningExercise = null;
-    this.exerciseChanged.next(null);
+    this.store.dispatch(TrainingActions.stopExercise());
   }
 
   cancelExercise(progress: number): void {
@@ -79,8 +75,7 @@ export class TrainingService {
       date: new Date(),
       state: 'cancelled'
     });
-    this.runningExercise = null;
-    this.exerciseChanged.next(null);
+    this.store.dispatch(TrainingActions.stopExercise());
   }
 
   getRunningExercise(): Exercise {
@@ -91,7 +86,7 @@ export class TrainingService {
     this.firebaseSubscriptions.push(this.firestore
       .collection(TrainingService.PAST_EXERCISES).valueChanges()
       .subscribe((exercises: Exercise[]) => {
-        this.pastExercisesChanged.next(exercises);
+        this.store.dispatch(TrainingActions.setPastExercises({exercises}));
       }));
   }
 

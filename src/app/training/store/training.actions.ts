@@ -14,7 +14,7 @@ export const setPastExercises = createAction(
 
 export const startExercise = createAction(
   '[Training] START EXERCISE',
-  props<{ exercise: Exercise }>()
+  props<{ id: string }>()
 );
 
 export const stopExercise = createAction(
