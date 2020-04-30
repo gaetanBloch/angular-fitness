@@ -20,3 +20,36 @@ The application was made using [Angular 9](https://angular.io/), [Angular Materi
 9. Navigate to http://localhost:4200/ with your favourite browser
 
 ## Application
+
+### Welcome Page
+
+![Welcome Page](https://i.imgur.com/0DDAe5z.png)
+
+### Sign up Page
+
+![Sign up](https://i.imgur.com/0YskvxB.png)
+
+### Login Page
+
+![Login](https://i.imgur.com/WeaQ2G8.png)
+
+### New Exercise Page
+
+![New Exercise](https://i.imgur.com/C6ZKvgY.png)
+
+### Running Exercise Page
+
+![Running Exercise](https://i.imgur.com/isOiLTU.png)
+
+### Past Exercises Page
+
+![Past Exercises](https://i.imgur.com/wlSaKys.png)
+
+### Reactive Design
+
+![Page Reactive 1](https://i.imgur.com/YrdZGgI.png) & 
+![Page Reactive 2](https://i.imgur.com/58YPzzQ.png)
+
+### 404 NOT FOUND 
+
+![404 NOT FOUND](https://i.imgur.com/yaADCbU.png)
