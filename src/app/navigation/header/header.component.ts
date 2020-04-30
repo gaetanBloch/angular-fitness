@@ -1,11 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AuthService } from '../../auth/auth.service';
 import { AuthStatus } from '../../auth/auth-data.model';
 import * as fromApp from '../../store/app.reducer';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',

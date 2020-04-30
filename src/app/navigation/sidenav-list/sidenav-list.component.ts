@@ -1,8 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AuthService } from '../../auth/auth.service';
 import { AuthStatus } from '../../auth/auth-data.model';
+import * as fromApp from '../../store/app.reducer';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -11,16 +14,12 @@ import { AuthStatus } from '../../auth/auth-data.model';
 })
 export class SidenavListComponent implements OnInit, OnDestroy {
   @Output() closeSideNav = new EventEmitter<void>();
-  authStatus = AuthStatus.IDLE;
   private authSubscription: Subscription;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private store: Store<fromApp.AppState>) {
   }
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.authChange.subscribe(authStatus => {
-      this.authStatus = authStatus;
-    });
   }
 
   onClose(): void {
@@ -30,6 +29,18 @@ export class SidenavListComponent implements OnInit, OnDestroy {
   onLogout(): void {
     this.onClose();
     this.authService.logout();
+  }
+
+  isAuthenticated$(): Observable<boolean> {
+    return this.store.select(fromApp.getAuthStatus).pipe(
+      map(authStatus => authStatus === AuthStatus.AUTHENTICATED)
+    );
+  }
+
+  isUnauthenticated$(): Observable<boolean> {
+    return this.store.select(fromApp.getAuthStatus).pipe(
+      map(authStatus => authStatus === AuthStatus.UNAUTHENTICATED)
+    );
   }
 
   ngOnDestroy(): void {
