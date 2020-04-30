@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { AuthData, AuthStatus } from './auth-data.model';
 import { TrainingService } from '../training/training.service';
 import { UiService } from '../shared/ui.service';
+import * as fromApp from '../app.reducer';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -16,7 +18,8 @@ export class AuthService {
   constructor(private router: Router,
               private fireAuth: AngularFireAuth,
               private trainingService: TrainingService,
-              private uiService: UiService) {
+              private uiService: UiService,
+              private store: Store<{ app: fromApp.State }>) {
   }
 
   initAuthListener(): void {
@@ -32,14 +35,16 @@ export class AuthService {
   }
 
   signup(authData: AuthData): void {
-    this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch({type: '[UI] START LOADING'});
+    // this.uiService.loadingStateChanged.next(true);
     this.fireAuth.createUserWithEmailAndPassword(authData.email, authData.password)
       .then(this.handleAuthentication.bind(this))
       .catch(this.handleError.bind(this));
   }
 
   login(authData: AuthData): void {
-    this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch({type: '[UI] START LOADING'});
+    // this.uiService.loadingStateChanged.next(true);
     this.fireAuth.signInWithEmailAndPassword(authData.email, authData.password)
       .then(this.handleAuthentication.bind(this))
       .catch(this.handleError.bind(this));
@@ -54,11 +59,13 @@ export class AuthService {
   }
 
   private handleAuthentication(): void {
-    this.uiService.loadingStateChanged.next(false);
+    this.store.dispatch({type: '[UI] STOP LOADING'});
+    // this.uiService.loadingStateChanged.next(false);
   }
 
   private handleError(error: any): void {
-    this.uiService.loadingStateChanged.next(false);
+    this.store.dispatch({type: '[UI] STOP LOADING'});
+    // this.uiService.loadingStateChanged.next(false);
     this.uiService.showSnackbar(error.message, 'Dismiss', 7000);
   }
 

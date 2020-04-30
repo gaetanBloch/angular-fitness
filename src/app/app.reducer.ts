@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-interface State {
+export interface State {
   isLoading: boolean;
 }
 
