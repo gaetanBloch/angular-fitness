@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 
 import { Exercise } from '../exercise.model';
 import { TrainingService } from '../training.service';
+import * as fromTraining from '../store/training.reducer';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-past-trainings',
@@ -20,12 +22,12 @@ export class PastTrainingsComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private trainingService: TrainingService) {
+  constructor(private trainingService: TrainingService, private store: Store<fromTraining.State>) {
   }
 
   ngOnInit(): void {
     this.trainingService.fetchPastExercises();
-    this.exercisesSubscription = this.trainingService.pastExercisesChanged
+    this.exercisesSubscription = this.store.select(fromTraining.getPastExercises)
       .subscribe(exercises => {
         this.dataSource.data = exercises;
       });

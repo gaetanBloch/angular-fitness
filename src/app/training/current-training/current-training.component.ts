@@ -5,8 +5,8 @@ import { take } from 'rxjs/operators';
 
 import { StopTrainingComponent } from './stop-training/stop-training.component';
 import { TrainingService } from '../training.service';
-import * as fromTraining from '../store/training.reducer';
 import { Exercise } from '../exercise.model';
+import * as fromTraining from '../store/training.reducer';
 
 @Component({
   selector: 'app-current-training',
