@@ -9,5 +9,16 @@ const initialState: State = {
 };
 
 export function appReducer(state: State | undefined, action: Action) {
-  return state;
+  switch (action.type) {
+    case '[UI] START LOADING':
+      return {
+        isLoading: true
+      };
+    case '[UI] STOP LOADING':
+      return {
+        isLoading: false
+      };
+    default:
+      return state;
+  }
 }
