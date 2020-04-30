@@ -11,10 +11,10 @@ import {
 } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import * as fromApp from '../store/app.reducer';
-import { map } from 'rxjs/operators';
 import { AuthStatus } from './auth-data.model';
 
 @Injectable({providedIn: 'root'})
@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   private checkAuthStatus(): Observable<boolean> {
-    return this.store.select(fromApp.getAuthStatus).pipe(map(authStatus => {
+    return this.store.select(fromApp.getAuthStatus).pipe(take(1), map(authStatus => {
       if (authStatus === AuthStatus.IDLE || authStatus === AuthStatus.AUTHENTICATED) {
         return true;
       }
