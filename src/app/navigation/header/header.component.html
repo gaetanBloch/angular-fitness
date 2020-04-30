@@ -13,16 +13,16 @@
   </div>
   <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
     <ul fxLayout class="nav-items">
-      <li *ngIf="isUnauthenticated()">
+      <li *ngIf="isUnauthenticated$() | async">
         <a routerLink="/signup" routerLinkActive="active">Signup</a>
       </li>
-      <li *ngIf="isUnauthenticated()">
+      <li *ngIf="isUnauthenticated$() | async">
         <a routerLink="/login" routerLinkActive="active">Login</a>
       </li>
-      <li *ngIf="isAuthenticated()">
+      <li *ngIf="isAuthenticated$() | async">
         <a routerLink="/training" routerLinkActive="active">Training</a>
       </li>
-      <li *ngIf="isAuthenticated()">
+      <li *ngIf="isAuthenticated$() | async">
         <a style="cursor: pointer" (click)="onLogout()">Logout</a>
       </li>
     </ul>

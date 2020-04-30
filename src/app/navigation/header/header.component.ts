@@ -1,8 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import { AuthService } from '../../auth/auth.service';
 import { AuthStatus } from '../../auth/auth-data.model';
+import * as fromApp from '../../store/app.reducer';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -11,16 +14,12 @@ import { AuthStatus } from '../../auth/auth-data.model';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   @Output() toggleSideNav = new EventEmitter<void>();
-  authStatus = AuthStatus.IDLE;
   private authSubscription: Subscription;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private store: Store<fromApp.AppState>) {
   }
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.authChange.subscribe(authStatus => {
-      this.authStatus = authStatus;
-    });
   }
 
   onToggleSidenav(): void {
@@ -31,12 +30,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
-  isAuthenticated(): boolean {
-    return this.authStatus === AuthStatus.AUTHENTICATED;
+  isAuthenticated$(): Observable<boolean> {
+    return this.store.select(fromApp.getAuthStatus).pipe(
+      map(authStatus => authStatus === AuthStatus.AUTHENTICATED)
+    );
   }
 
-  isUnauthenticated(): boolean {
-    return this.authStatus === AuthStatus.UNAUTHENTICATED;
+  isUnauthenticated$(): Observable<boolean> {
+    return this.store.select(fromApp.getAuthStatus).pipe(
+      map(authStatus => authStatus === AuthStatus.UNAUTHENTICATED)
+    );
   }
 
   ngOnDestroy(): void {
