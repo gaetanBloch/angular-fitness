@@ -1,12 +1,12 @@
 # Angular Fitness Tracker
 
-The application was made using [Angular 9](https://angular.io/), [Angular Material](https://material.angular.io/), [NgRx](https://ngrx.io/) and [Firebase](https://firebase.google.com/) as a backend and Host service.
+The application was built using [Angular 9](https://angular.io/), [Angular Material](https://material.angular.io/), [NgRx](https://ngrx.io/) and [Firebase](https://firebase.google.com/) as a backend and Host service. It consists of a fitness tracking application by performing Exercises.
 
-**The application was deployed on firebase, to access it, click [here](https://angular-fitness-f641e.web.app/).**
+**The application was deployed on Firebase, to access it, click [here](https://angular-fitness-f641e.web.app/).**
 
 ## Running Application Process on your computer
 
-1. Download the application by Clicking [this link](https://github.com/gaetanBloch/angular-project/archive/master.zip)
+1. Download the application by Clicking [this link](https://github.com/gaetanBloch/angular-fitness/archive/master.zip)
 2. Unzip the application
 3. Download and Install [node.js](https://nodejs.org/en/download/) 
 4. Open a terminal
