@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { AuthData, AuthStatus } from './auth-data.model';
 import { TrainingService } from '../training/training.service';
 import { UiService } from '../shared/ui.service';
+import { UserService } from '../shared/user.service';
 import * as fromApp from '../store/app.reducer';
 import * as UiActions from '../shared/store/ui.actions';
 import * as AuthActions from './store/auth.actions';
@@ -19,7 +20,8 @@ export class AuthService {
               private fireAuth: AngularFireAuth,
               private trainingService: TrainingService,
               private uiService: UiService,
-              private store: Store<fromApp.AppState>) {
+              private store: Store<fromApp.AppState>,
+              private userService: UserService) {
   }
 
   initAuthListener(): void {
@@ -36,22 +38,28 @@ export class AuthService {
   signup(authData: AuthData): void {
     this.store.dispatch(UiActions.startLoading());
     this.fireAuth.createUserWithEmailAndPassword(authData.email, authData.password)
-      .then(this.handleAuthentication.bind(this))
+      .then(() => {
+        this.handleAuthentication(authData.email);
+      })
       .catch(this.handleError.bind(this));
   }
 
   login(authData: AuthData): void {
     this.store.dispatch(UiActions.startLoading());
     this.fireAuth.signInWithEmailAndPassword(authData.email, authData.password)
-      .then(this.handleAuthentication.bind(this))
+      .then(() => {
+        this.handleAuthentication(authData.email);
+      })
       .catch(this.handleError.bind(this));
   }
 
   logout(): void {
     this.fireAuth.signOut();
+    this.userService.removeUser();
   }
 
-  private handleAuthentication(): void {
+  private handleAuthentication(email: string): void {
+    this.userService.setUser(email);
     this.store.dispatch(UiActions.stopLoading());
   }
 

@@ -6,6 +6,7 @@ import { map, take } from 'rxjs/operators';
 
 import { Exercise, ExerciseDoc } from './exercise.model';
 import { UiService } from '../shared/ui.service';
+import { UserService } from '../shared/user.service';
 import * as fromTraining from '../training/store/training.reducer';
 import * as UiActions from '../shared/store/ui.actions';
 import * as TrainingActions from '../training/store/training.actions';
@@ -17,7 +18,8 @@ export class TrainingService {
 
   constructor(private firestore: AngularFirestore,
               private uiService: UiService,
-              private store: Store<fromTraining.State>) {
+              private store: Store<fromTraining.State>,
+              private userService: UserService) {
   }
 
   fetchAvailableExercises() {
@@ -56,6 +58,7 @@ export class TrainingService {
     this.store.select(fromTraining.getRunningExercise).pipe(take(1)).subscribe(exercise => {
       this.addDataToFirestore({
         ...exercise,
+        user: this.userService.getUser(),
         date: new Date(),
         state: 'completed'
       });
@@ -67,6 +70,7 @@ export class TrainingService {
     this.store.select(fromTraining.getRunningExercise).pipe(take(1)).subscribe(exercise => {
       this.addDataToFirestore({
         ...exercise,
+        user: this.userService.getUser(),
         duration: exercise.duration * (progress / 100),
         calories: exercise.calories * (progress / 100),
         date: new Date(),
@@ -80,7 +84,9 @@ export class TrainingService {
     this.firebaseSubscriptions.push(this.firestore
       .collection(TrainingService.PAST_EXERCISES).valueChanges()
       .subscribe((exercises: Exercise[]) => {
-        this.store.dispatch(TrainingActions.setPastExercises({exercises}));
+        this.store.dispatch(TrainingActions.setPastExercises({
+          exercises: exercises.filter(ex => ex.user === this.userService.getUser())
+        }));
       }));
   }
 
