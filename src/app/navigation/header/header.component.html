@@ -14,10 +14,10 @@
   <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
     <ul fxLayout class="nav-items">
       <li *ngIf="isUnauthenticated$() | async">
-        <a routerLink="/signup" routerLinkActive="active">Signup</a>
+        <a routerLink="/login" routerLinkActive="active">Login</a>
       </li>
       <li *ngIf="isUnauthenticated$() | async">
-        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a routerLink="/signup" routerLinkActive="active">Signup</a>
       </li>
       <li *ngIf="isAuthenticated$() | async">
         <a routerLink="/training" routerLinkActive="active">Training</a>
