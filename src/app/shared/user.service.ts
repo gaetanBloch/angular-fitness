@@ -5,14 +5,14 @@ export class UserService {
   private static readonly USER = 'user';
 
   setUser(user: string): void {
-    localStorage.setItem(UserService.USER, user);
+    sessionStorage.setItem(UserService.USER, user);
   }
 
   getUser(): string {
-    return localStorage.getItem(UserService.USER);
+    return sessionStorage.getItem(UserService.USER);
   }
 
   removeUser(): void {
-    localStorage.removeItem(UserService.USER);
+    sessionStorage.removeItem(UserService.USER);
   }
 }
