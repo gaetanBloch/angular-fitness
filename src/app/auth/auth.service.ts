@@ -14,7 +14,6 @@ import * as AuthActions from './store/auth.actions';
 @Injectable({providedIn: 'root'})
 export class AuthService {
   private authStatus = AuthStatus.IDLE;
-  private firstOpening = true;
 
   constructor(private router: Router,
               private fireAuth: AngularFireAuth,
@@ -27,6 +26,7 @@ export class AuthService {
   initAuthListener(): void {
     this.fireAuth.authState.subscribe(user => {
       if (user) {
+        this.userService.setUser(user.email);
         this.finalizeAuthentication(AuthStatus.AUTHENTICATED);
       } else {
         this.trainingService.cancelSubscriptions();
@@ -55,7 +55,16 @@ export class AuthService {
 
   logout(): void {
     this.fireAuth.signOut();
-    this.userService.removeUser();
+  }
+
+  private finalizeAuthentication(authStatus: AuthStatus) {
+    this.authStatus = authStatus;
+    this.store.dispatch(AuthActions.setAuthenticationStatus({authStatus}));
+    if (authStatus === AuthStatus.AUTHENTICATED) {
+      this.router.navigate(['/training']);
+    } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
+      this.router.navigate(['/login']);
+    }
   }
 
   private handleAuthentication(email: string): void {
@@ -66,15 +75,5 @@ export class AuthService {
   private handleError(error: any): void {
     this.store.dispatch(UiActions.stopLoading());
     this.uiService.showSnackbar(error.message, 'Dismiss', 7000);
-  }
-
-  private finalizeAuthentication(authStatus: AuthStatus) {
-    this.authStatus = authStatus;
-    this.store.dispatch(AuthActions.setAuthenticationStatus({authStatus}));
-    if (this.firstOpening) {
-      this.firstOpening = false;
-    } else {
-      this.router.navigate(['']);
-    }
   }
 }
