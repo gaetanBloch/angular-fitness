@@ -2,17 +2,13 @@ import { Injectable } from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
-  private static readonly USER = 'user-fitness';
+  private user: string;
 
   setUser(user: string): void {
-    sessionStorage.setItem(UserService.USER, user);
+    this.user = user;
   }
 
   getUser(): string {
-    return sessionStorage.getItem(UserService.USER);
-  }
-
-  removeUser(): void {
-    sessionStorage.removeItem(UserService.USER);
+    return this.user;
   }
 }
